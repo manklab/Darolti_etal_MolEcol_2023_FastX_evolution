@@ -9,7 +9,7 @@
 
 ## 1. Identify reciprocal orthologs ##
 
-# We have previously obtained de novo transcripts for our target species (P. reticulata, P. wingei, P. picta, P. parae, P. latipinna, G. holbrooki) & populations (P. reticulata Aripo upstream, Aripo downstream, Yarra ipstream, Yarra downstream, Quare upstream, Quare downstream) by mapping RNA-seq reads to species-specific and population-specific female genome assemblies (Wright et al. 2017, Darolti et al. 2021, Almeida et al. 2022, Sandkam et al. 2022)
+# We have previously obtained de novo transcripts for our target species (P. reticulata, P. wingei, P. picta, P. parae, P. latipinna, G. holbrooki) by mapping RNA-seq reads to species-specific genome assemblies (Wright et al. 2017, Darolti et al. 2021, Sandkam et al. 2022)
 
 # Obtain longest isoforms from Ensembl cds fasta files. This script processes an Ensembl fasta file and picks the longest isoform for each gene. Outputs a new fasta file with ending in _longest.fasta
 python 00.get-longest-isoform.py ../1.Identify_reciprocal_orthologs/Outgroup_species/Poecilia_formosa.PoeFor_5.1.2.cds.all.fa
@@ -23,7 +23,7 @@ python 00.get-longest-isoform.py ../1.Identify_reciprocal_orthologs/Outgroup_spe
 mv Poeciliareticulata_longest.fasta PoeciliareticulataEnsembl_longest.fasta
 mv Poecilialatipinna_longest.fasta PoecilialatipinnaEnsembl_longest.fasta
 
-target_species=(Poeciliareticulata Poeciliawingei Poeciliapicta Poeciliaparae Poecilialatipinna Gambusiaholbrooki PoeciliareticulataEnsembl PoeciliareticulataARL PoeciliareticulataARH PoeciliareticulataQUL PoeciliareticulataQUH PoeciliareticulataYAL PoeciliareticulataYAH)
+target_species=(Poeciliareticulata Poeciliawingei Poeciliapicta Poeciliaparae Poecilialatipinna Gambusiaholbrooki PoeciliareticulataEnsembl)
 
 # Reciprocal best-hit blast. A list of input genomes is blasted against each other and the output is written in provided format.
 for sp in ${target_species[@]}; do
@@ -136,7 +136,7 @@ for sp in ${target_species[@]}; do
 done
 
 # Our P. reticulata de novo genome assembly was anchored to the P. reticulata reference genome, which has a large inversion on the X chromosome. This inversion is present in the reference genome but absent from all our study populations. We thus need to correct for this inversion.
-reticulata_species=(Poeciliareticulata PoeciliareticulataARL PoeciliareticulataARH PoeciliareticulataQUL PoeciliareticulataQUH PoeciliareticulataYAL PoeciliareticulataYAH PoeciliareticulataEnsembl)
+reticulata_species=(Poeciliareticulata, PoeciliareticulataEnsembl)
 for sp in ${reticulata_species[@]}; do
 	python 15.reposition-inversion.py ../divergence_estimates/${sp}/${sp}_branchmodeltest_dSSdSfilter_posinfo.txt ../divergence_estimates/${sp}/${sp}_branchmodeltest_dSSdSfilter_posinfo_inversion.txt
 done
